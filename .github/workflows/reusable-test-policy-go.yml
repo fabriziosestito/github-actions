@@ -28,6 +28,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
+        with:
+          # until https://github.com/actions/checkout/pull/579 is released
+          fetch-depth: 0
       - name: Install dependencies
         uses: kubewarden/github-actions/policy-gh-action-dependencies@v3.1.7
       - name: Build and annotate policy
