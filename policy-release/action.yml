@@ -102,6 +102,6 @@ runs:
       uses: peter-evans/repository-dispatch@v2
       with:
         token: ${{ inputs.GITHUB_TOKEN }}
-        repository: fabriziosestito/policy-catalog
+        repository: fabriziosestito/policy-charts
         event-type: release-policy
         client-payload: ${{ steps.catalog-payload.outputs.payload }}
