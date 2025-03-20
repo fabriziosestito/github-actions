@@ -16,6 +16,10 @@ inputs:
     description: "GitHub token to login into ghcr.io"
     required: true
     type: string
+  policy-name:
+    description: "The name of the policy. This is used in monorepos where multiple policies can be released"
+    required: false
+    type: string
   policy-working-dir:
     description: "working directory of the policy. Useful for repos with policies in folders"
     required: false
@@ -73,3 +77,31 @@ runs:
           ${{ inputs.policy-working-dir }}/policy-sbom.spdx.json
           ${{ inputs.policy-working-dir }}/policy-sbom.spdx.cert
           ${{ inputs.policy-working-dir }}/policy-sbom.spdx.sig
+    - name: Prepare catalog payload
+      if: ${{ ! startsWith(github.ref, 'refs/heads/') }}
+      shell: bash
+      id: catalog-payload
+      run: |
+        PAYLOAD='{
+          "owner": "${{ github.repository_owner }}",
+          "repo": "${{ github.event.repository.name }}",
+          "tag": "${{ github.ref_name }}",
+        }'
+
+        if [ -n "${{ inputs.policy-name }}" ]; then
+          PAYLOAD=$(echo $PAYLOAD | jq '. + {"chart_dir": "${{ inputs.policy-name }}"}')
+        fi
+
+        if [ "${{ inputs.policy-working-dir }}" != "." ]; then
+          PAYLOAD=$(echo $PAYLOAD | jq '. + {"artifacthub_pkg_yml": "${{ inputs.policy-working-dir }}/artifacthub-pkg.yml"}')
+        fi
+
+        echo "payload=$(echo $PAYLOAD | jq -c)" >> $GITHUB_OUTPUT
+    - name: Update policy catalog
+      if: ${{ ! startsWith(github.ref, 'refs/heads/') }}
+      uses: peter-evans/repository-dispatch@v2
+      with:
+        token: ${{ inputs.GITHUB_TOKEN }}
+        repository: fabriziosestito/policy-catalog
+        event-type: release-policy
+        client-payload: ${{ steps.catalog-payload.outputs.payload }}

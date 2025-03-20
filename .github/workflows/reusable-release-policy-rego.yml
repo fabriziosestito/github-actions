@@ -11,6 +11,10 @@ on:
         required: false
         type: boolean
         default: true
+      policy-name:
+        description: "The name of the policy. This is used in monorepos where multiple policies can be released"
+        required: false
+        type: string
       policy-working-dir:
         description: "working directory of the policy. Useful for repos with policies in folders"
         required: false
