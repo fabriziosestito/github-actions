@@ -91,7 +91,7 @@ jobs:
         run: |
           make e2e-tests
       - name: Release
-        uses: kubewarden/github-actions/policy-release@v4.0.0
+        uses: fabriziosestito/github-actions/policy-release@feat/add-policy-catalog-repository-dispatch
         with:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           oci-target: ${{ inputs.oci-target }}
