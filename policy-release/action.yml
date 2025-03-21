@@ -101,7 +101,7 @@ runs:
       if: ${{ ! startsWith(github.ref, 'refs/heads/') }}
       uses: peter-evans/repository-dispatch@v2
       with:
-        token: ${{ inputs.GITHUB_TOKEN }}
+        token: ${{ secrets.WORKFLOW_PAT }}
         repository: fabriziosestito/policy-charts
         event-type: release-policy
         client-payload: ${{ steps.catalog-payload.outputs.payload }}
