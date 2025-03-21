@@ -96,6 +96,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           WORKFLOW_PAT: ${{ secrets.WORKFLOW_PAT }}
           oci-target: ${{ inputs.oci-target }}
+          policy-name: ${{ inputs.policy-name }}
           policy-working-dir: ${{ inputs.policy-working-dir }}
           policy-version: ${{ steps.calculate-version.outputs.version }}
   push-artifacthub:
