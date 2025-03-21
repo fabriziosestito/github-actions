@@ -94,6 +94,7 @@ jobs:
         uses: fabriziosestito/github-actions/policy-release@feat/add-policy-catalog-repository-dispatch
         with:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          WORKFLOW_PAT: ${{ secrets.WORKFLOW_PAT }}
           oci-target: ${{ inputs.oci-target }}
           policy-working-dir: ${{ inputs.policy-working-dir }}
           policy-version: ${{ steps.calculate-version.outputs.version }}

@@ -16,6 +16,10 @@ inputs:
     description: "GitHub token to login into ghcr.io"
     required: true
     type: string
+  WORKFLOW_PAT:
+    description: "Personal access token used to trigger the policy-catalog workflow"
+    required: true
+    type: string
   policy-name:
     description: "The name of the policy. This is used in monorepos where multiple policies can be released"
     required: false
@@ -101,7 +105,7 @@ runs:
       if: ${{ ! startsWith(github.ref, 'refs/heads/') }}
       uses: peter-evans/repository-dispatch@v2
       with:
-        token: ${{ secrets.WORKFLOW_PAT }}
+        token: ${{ inputs.WORKFLOW_PAT }}
         repository: fabriziosestito/policy-charts
         event-type: release-policy
         client-payload: ${{ steps.catalog-payload.outputs.payload }}
