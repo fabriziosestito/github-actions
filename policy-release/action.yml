@@ -97,7 +97,7 @@ runs:
         fi
 
         if [ "${{ inputs.policy-working-dir }}" != "." ]; then
-          PAYLOAD=$(echo $PAYLOAD | jq '. + {"artifacthub_pkg_yml": "${{ inputs.policy-working-dir }}/artifacthub-pkg.yml"}')
+          PAYLOAD=$(echo $PAYLOAD | jq '. + {"artifacthub_pkg_path": "${{ inputs.policy-working-dir }}/artifacthub-pkg.yml"}')
         fi
 
         echo "payload=$(echo $PAYLOAD | jq -c)" >> $GITHUB_OUTPUT
